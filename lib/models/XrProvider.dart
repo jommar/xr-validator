@@ -28,22 +28,39 @@ class XrProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map> validateXr({int id}) async {
+  Future<Map> validateXr({Map form}) async {
     final url = apiUrl(url: 'hospital/xr');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'id': id, 'user': code}),
+      body: json.encode({
+        'id': form['id'],
+        'result': form['result'],
+        'user': code,
+        // 'user': '5272',
+      }),
     );
 
     final responseJson = json.decode(response.body);
+    // print(responseJson);
+
+    // return {
+    //   'error': true,
+    //   'message': 'error',
+    // };
 
     if (responseJson['error']) {
-      return {'error': responseJson['message']};
+      return {
+        'error': true,
+        'message': responseJson['message'],
+      };
     }
 
-    _forValidation.removeWhere((element) => element['id'] == id);
+    _forValidation.removeWhere((element) => element['id'] == form['id']);
     notifyListeners();
-    return {'success': responseJson['message']};
+    return {
+      'success': true,
+      'message': responseJson['message'],
+    };
   }
 }

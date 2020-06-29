@@ -28,7 +28,16 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'UERM Radiology',
-        theme: uermTheme,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          scaffoldBackgroundColor: Colors.blue[50],
+          appBarTheme: AppBarTheme(
+            color: Colors.blue[700],
+          ),
+          buttonTheme: ButtonThemeData(
+              buttonColor: Colors.blue, textTheme: ButtonTextTheme.primary),
+        ),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
         // onGenerateRoute: (settings) {

@@ -45,10 +45,11 @@ class AutoLogin extends StatelessWidget {
                     ),
                     FlatButton.icon(
                       onPressed: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/', ModalRoute.withName('/'));
+                        // Navigator.of(context).pushNamedAndRemoveUntil(
+                        //     '/', ModalRoute.withName('/'));
                         // Navigator.of(context).pop();
-                        // Navigator.of(context).pushReplacementNamed('/');
+                        Navigator.of(context).pushReplacementNamed('/');
+                        Navigator.of(context).pop();
                       },
                       icon: Icon(FontAwesomeIcons.home),
                       label: Text('Continue'),
