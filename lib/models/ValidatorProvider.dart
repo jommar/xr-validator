@@ -4,9 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:xr_approval/models/UrlModel.dart';
 
-class XrProvider with ChangeNotifier {
+class ValidatorProvider with ChangeNotifier {
   final code;
-  XrProvider({this.code});
+  ValidatorProvider({this.code});
   List _forValidation = [];
 
   get forValidation {
@@ -15,6 +15,7 @@ class XrProvider with ChangeNotifier {
 
   Future<void> populateForValidation() async {
     final url = apiUrl(url: 'hospital/xr', params: '&validated=0');
+    print(url);
     final response = await http.get(url);
     final responseJson = json.decode(response.body);
     _forValidation = responseJson['radiologyInfo'];
@@ -37,17 +38,10 @@ class XrProvider with ChangeNotifier {
         'id': form['id'],
         'result': form['result'],
         'user': code,
-        // 'user': '5272',
       }),
     );
 
     final responseJson = json.decode(response.body);
-    // print(responseJson);
-
-    // return {
-    //   'error': true,
-    //   'message': 'error',
-    // };
 
     if (responseJson['error']) {
       return {
