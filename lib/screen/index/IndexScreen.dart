@@ -5,14 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:xr_approval/components/UermWidgets.dart';
-import 'package:xr_approval/models/XrProvider.dart';
+import 'package:xr_approval/models/ValidatorProvider.dart';
 
 class IndexScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Radiology Validation'),
+        title: Text('Result Validation'),
       ),
       drawer: Drawer(
         child: Column(
@@ -38,7 +38,7 @@ class IndexScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder(
-        future: Provider.of<XrProvider>(context, listen: false)
+        future: Provider.of<ValidatorProvider>(context, listen: false)
             .populateForValidation(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -60,14 +60,15 @@ class ForValidation extends StatelessWidget {
       RefreshController(initialRefresh: false);
 
   _populateForValidation({BuildContext context}) async {
-    await Provider.of<XrProvider>(context, listen: false)
+    await Provider.of<ValidatorProvider>(context, listen: false)
         .refreshForValidation();
     _refreshController.refreshCompleted();
   }
 
   @override
   Widget build(BuildContext context) {
-    final List forValidation = Provider.of<XrProvider>(context).forValidation;
+    final List forValidation =
+        Provider.of<ValidatorProvider>(context).forValidation;
     return LayoutBuilder(
       builder: (context, constraints) {
         if (forValidation.length < 1) {
@@ -157,8 +158,9 @@ class _ValidationItemState extends State<ValidationItem> {
         _promptValidate = true;
       });
 
-      final response = await Provider.of<XrProvider>(context, listen: false)
-          .validateXr(form: form);
+      final response =
+          await Provider.of<ValidatorProvider>(context, listen: false)
+              .validateXr(form: form);
 
       if (response['error'] != null) {
         Scaffold.of(context).showSnackBar(SnackBar(

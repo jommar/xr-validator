@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xr_approval/RouteGenerator.dart';
 import 'package:xr_approval/models/AuthProvider.dart';
-import 'package:xr_approval/models/XrProvider.dart';
-import 'package:xr_approval/theme/UermTheme.dart';
+import 'package:xr_approval/models/ValidatorProvider.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,16 +17,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
         ),
-        ChangeNotifierProxyProvider<AuthProvider, XrProvider>(
-          create: (context) => XrProvider(),
-          update: (_, auth, prev) => XrProvider(code: auth.code),
+        ChangeNotifierProxyProvider<AuthProvider, ValidatorProvider>(
+          create: (context) => ValidatorProvider(),
+          update: (_, auth, prev) => ValidatorProvider(code: auth.code),
         ),
-        // ChangeNotifierProvider(
-        //   create: (_) => XrProvider(),
-        // ),
       ],
       child: MaterialApp(
-        title: 'UERM Radiology',
+        title: 'Result Validator',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
