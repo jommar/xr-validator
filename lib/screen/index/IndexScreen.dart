@@ -105,13 +105,15 @@ class ForValidation extends StatelessWidget {
           onRefresh: () {
             _populateForValidation(context: context);
           },
-          child: ListView.builder(
-            itemCount: forValidation.length,
-            itemBuilder: (context, index) {
-              return AdaptiveContainer(
-                child: ValidationItem(item: forValidation[index]),
-              );
-            },
+          child: Scrollbar(
+            child: ListView.builder(
+              itemCount: forValidation.length,
+              itemBuilder: (context, index) {
+                return AdaptiveContainer(
+                  child: ValidationItem(item: forValidation[index]),
+                );
+              },
+            ),
           ),
         );
       },
@@ -206,7 +208,7 @@ class _ValidationItemState extends State<ValidationItem> {
         ListTile(
           onTap: () {},
           title: Text(widget.item['patientName']),
-          subtitle: Text(widget.item['chargeDescription']),
+          subtitle: Text(widget.item['chargeDescription'] == null ? '' : widget.item['chargeDescription']),
           leading: CircleAvatar(
             child: IconButton(
               iconSize: 20,
