@@ -130,6 +130,8 @@ class ValidationItem extends StatefulWidget {
 class _ValidationItemState extends State<ValidationItem> {
   bool _isDetailsShown = false;
   bool _promptValidate = true;
+  GlobalKey<FormBuilderState> _formKey;
+
   Future<void> _validateXrRecord({
     int id,
     BuildContext context,
@@ -187,63 +189,24 @@ class _ValidationItemState extends State<ValidationItem> {
 
       print(response);
     }
-    return;
-    Scaffold.of(context).hideCurrentSnackBar();
-    if (_promptValidate) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        backgroundColor: Theme.of(context).primaryColorDark,
-        content: Text(
-          'Please click on validate again to continue.',
-          textAlign: TextAlign.center,
-        ),
-      ));
-      setState(() {
-        _promptValidate = false;
-        _isDetailsShown = false;
-      });
-      return;
-    }
+  }
 
-    // final response = await Provider.of<XrProvider>(context, listen: false)
-    //     .validateXr(id: id);
-
-    // if (response['error'] != null) {
-    //   Scaffold.of(context).showSnackBar(SnackBar(
-    //     backgroundColor: Theme.of(context).errorColor,
-    //     content: Text(
-    //       response['error'],
-    //       textAlign: TextAlign.center,
-    //     ),
-    //   ));
-    //   setState(() {
-    //     _promptValidate = true;
-    //   });
-    //   return;
-    // }
-
-    // Scaffold.of(context).showSnackBar(SnackBar(
-    //   backgroundColor: Colors.green,
-    //   content: Text(
-    //     response['success'],
-    //     textAlign: TextAlign.center,
-    //   ),
-    // ));
-    // setState(() {
-    //   _isDetailsShown = false;
-    //   _promptValidate = true;
-    // });
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _formKey = GlobalKey<FormBuilderState>();
   }
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ListTile(
           onTap: () {},
           title: Text(widget.item['patientName']),
-          subtitle: Text(widget.item['diagnosis']),
+          subtitle: Text(widget.item['chargeDescription']),
           leading: CircleAvatar(
             child: IconButton(
               iconSize: 20,
@@ -276,7 +239,7 @@ class _ValidationItemState extends State<ValidationItem> {
                           attribute: 'result',
                           keyboardType: TextInputType.multiline,
                           minLines: 4,
-                          maxLines: 10,
+                          // maxLines: 10,
                           initialValue: widget.item['result'],
                         ),
                         SizedBox(
